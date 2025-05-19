@@ -1,0 +1,142 @@
+
+        // Dados iniciais
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let messages = JSON.parse(localStorage.getItem('messages')) || [];
+        let currentUser = null;
+        let currentChat = null;
+
+        // Inicializar usuários demo
+        if(users.length === 0) {
+            users = [
+                { username: 'Maria', password: '123' },
+                { username: 'João', password: '123' },
+                { username: 'Ana', password: '123' }
+            ];
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        // Funções de Autenticação
+        function login() {
+            const username = document.getElementById('loginUser').value;
+            const password = document.getElementById('loginPass').value;
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if(user) {
+                currentUser = user;
+                document.getElementById('authContainer').classList.replace('visible', 'hidden');
+                document.getElementById('dashboard').classList.replace('hidden', 'visible');
+                loadUsers();
+            } else {
+                alert('Credenciais inválidas!');
+            }
+        }
+
+        function signup() {
+            const username = document.getElementById('signupUser').value;
+            const password = document.getElementById('signupPass').value;
+            const confirm = document.getElementById('signupConfirm').value;
+
+            if(password !== confirm) return alert('Senhas não coincidem!');
+            if(users.some(u => u.username === username)) return alert('Usuário já existe!');
+
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Conta criada! Faça login.');
+            showLogin();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('dashboard').classList.replace('visible', 'hidden');
+            document.getElementById('authContainer').classList.replace('hidden', 'visible');
+        }
+
+        // Navegação
+        function showSignup() {
+            document.getElementById('loginForm').classList.replace('visible', 'hidden');
+            document.getElementById('signupForm').classList.replace('hidden', 'visible');
+        }
+
+        function showLogin() {
+            document.getElementById('signupForm').classList.replace('visible', 'hidden');
+            document.getElementById('loginForm').classList.replace('hidden', 'visible');
+        }
+
+        // Chat
+        function loadUsers() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = users
+                .filter(u => u.username !== currentUser.username)
+                .map(user => `
+                    <div class="user-card" onclick="openChat('${user.username}')">
+                        <div class="user-avatar">${user.username[0]}</div>
+                        <div>
+                            <h3>${user.username}</h3>
+                            <p>Disponível para trocas</p>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        function openChat(username) {
+            currentChat = username;
+            document.getElementById('chatContainer').classList.replace('hidden', 'visible');
+            document.getElementById('chatTitle').textContent = username;
+            loadMessages();
+        }
+
+        function closeChat() {
+            document.getElementById('chatContainer').classList.replace('visible', 'hidden');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if(text) {
+                const message = {
+                    from: currentUser.username,
+                    to: currentChat,
+                    text: text,
+                    time: new Date().toLocaleTimeString()
+                };
+                
+                messages.push(message);
+                localStorage.setItem('messages', JSON.stringify(messages));
+                displayMessage(message);
+                input.value = '';
+            }
+        }
+
+        function loadMessages() {
+            const chat = document.getElementById('chatMessages');
+            chat.innerHTML = messages
+                .filter(m => 
+                    (m.from === currentUser.username && m.to === currentChat) ||
+                    (m.from === currentChat && m.to === currentUser.username)
+                )
+                .map(m => `
+                    <div class="message ${m.from === currentUser.username ? 'sent' : ''}">
+                        <div class="message-content">
+                            <p>${m.text}</p>
+                            <small>${m.time}</small>
+                        </div>
+                    </div>
+                `).join('');
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function displayMessage(message) {
+            const chat = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `message ${message.from === currentUser.username ? 'sent' : ''}`;
+            div.innerHTML = `
+                <div class="message-content">
+                    <p>${message.text}</p>
+                    <small>${message.time}</small>
+                </div>
+            `;
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+   
