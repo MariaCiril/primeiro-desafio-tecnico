@@ -1,225 +1,300 @@
-
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTroca - Trocas Sustentáveis</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="javaScrip">
+    <title>EcoSabão - Troca de Sabão Ecológico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* O CSS será inserido aqui */
+    </style>
 </head>
 <body>
-    <!-- Tela de Autenticação -->
-    <div class="auth-container visible" id="authContainer">
-        <!-- Login -->
-        <div class="auth-form visible" id="loginForm">
-            <div class="auth-header">
-                <h1>Bem-vindo</h1>
-                <p>Faça login para começar</p>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="loginUser" placeholder="Usuário">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="loginPass" placeholder="Senha">
-            </div>
-            <button class="main-btn" onclick="login()">Entrar</button>
-            <div class="toggle-form">
-                Novo por aqui? <button class="toggle-btn" onclick="showSignup()">Criar conta</button>
-            </div>
-        </div>
-
-        <!-- Cadastro -->
-        <div class="auth-form hidden" id="signupForm">
-            <div class="auth-header">
-                <h1>Criar Conta</h1>
-                <p>Junte-se à comunidade</p>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="signupUser" placeholder="Usuário">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="signupPass" placeholder="Senha">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="signupConfirm" placeholder="Confirmar senha">
-            </div>
-            <button class="main-btn" onclick="signup()">Cadastrar</button>
-            <div class="toggle-form">
-                Já tem conta? <button class="toggle-btn" onclick="showLogin()">Fazer login</button>
-            </div>
-        </div>
+    <!-- Botão flutuante do WhatsApp -->
+    <a href="https://wa.me/5511999999999" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <div>Fabricante cadastrado com sucesso!</div>
     </div>
+    
+    <!-- Cabeçalho -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+                    <h1>Eco<span>Sabão</span></h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> Início</a></li>
+                        <li><a href="#" class="nav-link" data-page="products"><i class="fas fa-soap"></i> Sabões</a></li>
+                        <li><a href="#" class="nav-link" data-page="add"><i class="fas fa-user-plus"></i> Cadastrar Fabricante</a></li>
+                        <li><a href="#" class="nav-link" data-page="about"><i class="fas fa-info-circle"></i> Sobre</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-    <!-- Dashboard -->
-    <div class="dashboard hidden" id="dashboard">
-        <div class="header">
-            <h2>Usuários Disponíveis</h2>
-            <button class="main-btn" onclick="logout()" style="background: #e74c3c">Sair</button>
+    <!-- Página Inicial -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Troca de Sabão Ecológico Artesanal</h2>
+                    <p>Conectamos fabricantes de sabão ecológico com pessoas que valorizam produtos sustentáveis. Economize, ajude o planeta e promova a economia local!</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary nav-link" data-page="products"><i class="fas fa-soap"></i> Ver Sabões</a>
+                        <a href="#" class="btn nav-link" data-page="add"><i class="fas fa-user-plus"></i> Cadastrar-se</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="user-list" id="userList"></div>
-    </div>
+        
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Como Funciona</h2>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-user-check"></i></div>
+                        <h3>Cadastro do Fabricante</h3>
+                        <p>Fabricantes de sabão ecológico se cadastram com seus dados e informações de contato</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-soap"></i></div>
+                        <h3>Adicione Seus Produtos</h3>
+                        <p>Cadastre seus sabões artesanais com descrição, ingredientes e modo de produção</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h3>Defina Sua Localização</h3>
+                        <p>Informe sua localização para que clientes próximos possam encontrar você</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fab fa-whatsapp"></i></div>
+                        <h3>Contato Direto via WhatsApp</h3>
+                        <p>Clientes entram em contato diretamente pelo WhatsApp para combinar trocas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Chat -->
-    <div class="chat-container hidden" id="chatContainer">
-        <div class="chat-header">
-            <h3 id="chatTitle">Chat</h3>
-            <button onclick="closeChat()" style="background: none; border: none; color: white">✕</button>
+    <!-- Página de Produtos -->
+    <section id="products" class="page">
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Sabões Ecológicos Disponíveis</h2>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Buscar sabões por nome, ingrediente ou fabricante...">
+                    <button class="btn btn-primary" id="searchBtn"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="grid-2">
+                        <div class="filter-group">
+                            <h4>Tipo de Sabão</h4>
+                            <div class="filter-options">
+                                <button class="filter-btn active" data-filter="type" data-value="all"><i class="fas fa-check-circle"></i> Todos</button>
+                                <button class="filter-btn" data-filter="type" data-value="barra">Barra</button>
+                                <button class="filter-btn" data-filter="type" data-value="liquido">Líquido</button>
+                                <button class="filter-btn" data-filter="type" data-value="especial">Especial</button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <h4>Ingredientes</h4>
+                            <div class="filter-options">
+                                <button class="filter-btn active" data-filter="ingredient" data-value="all"><i class="fas fa-check-circle"></i> Todos</button>
+                                <button class="filter-btn" data-filter="ingredient" data-value="oleo">Óleo Reciclado</button>
+                                <button class="filter-btn" data-filter="ingredient" data-value="ervas">Ervas Naturais</button>
+                                <button class="filter-btn" data-filter="ingredient" data-value="argila">Argila</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="products-grid" id="productsContainer">
+                    <!-- Produtos serão carregados por JavaScript -->
+                </div>
+            </div>
         </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
-            <button class="main-btn" onclick="sendMessage()">Enviar</button>
+    </section>
+
+    <!-- Página de Cadastro -->
+    <section id="add" class="page">
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Cadastro de Fabricante</h2>
+                    <p>Cadastre-se como fabricante de sabão ecológico para começar a trocar seus produtos</p>
+                </div>
+                
+                <div class="form-container">
+                    <form id="makerForm">
+                        <div class="grid-2">
+                            <div class="form-group required">
+                                <label for="makerName"><i class="fas fa-user"></i> Nome Completo</label>
+                                <input type="text" id="makerName" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="makerBusiness"><i class="fas fa-store"></i> Nome do Empreendimento (se houver)</label>
+                                <input type="text" id="makerBusiness" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="grid-2">
+                            <div class="form-group required">
+                                <label for="makerEmail"><i class="fas fa-envelope"></i> Email</label>
+                                <input type="email" id="makerEmail" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group required">
+                                <label for="makerPhone"><i class="fas fa-phone"></i> Telefone</label>
+                                <input type="tel" id="makerPhone" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="makerWhatsApp"><i class="fab fa-whatsapp"></i> Link do WhatsApp</label>
+                            <input type="url" id="makerWhatsApp" class="form-control" required placeholder="https://wa.me/5511999999999">
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="makerAddress"><i class="fas fa-map-marker-alt"></i> Endereço Completo</label>
+                            <input type="text" id="makerAddress" class="form-control" required>
+                        </div>
+                        
+                        <div class="grid-2">
+                            <div class="form-group required">
+                                <label for="makerCity"><i class="fas fa-city"></i> Cidade</label>
+                                <input type="text" id="makerCity" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group required">
+                                <label for="makerState"><i class="fas fa-globe-americas"></i> Estado</label>
+                                <select id="makerState" class="form-control" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="SC">Santa Catarina</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="makerBio"><i class="fas fa-book"></i> Sobre Você e Seu Trabalho</label>
+                            <textarea id="makerBio" class="form-control" rows="4" required placeholder="Conte sobre sua experiência com sabão ecológico, sua filosofia de produção, etc."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="makerPhoto"><i class="fas fa-camera"></i> Foto (URL)</label>
+                            <input type="text" id="makerPhoto" class="form-control" placeholder="Cole a URL de uma foto sua ou do seu negócio">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Finalizar Cadastro</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Página Sobre -->
+    <section id="about" class="page">
+        <div class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Sobre o EcoSabão</h2>
+                    <p>Conectando fabricantes de sabão ecológico com consumidores conscientes</p>
+                </div>
+                
+                <div class="form-container">
+                    <div class="about-content">
+                        <h3><i class="fas fa-leaf"></i> Nossa Missão</h3>
+                        <p>O EcoSabão foi criado para promover a economia circular e o consumo sustentável. Queremos conectar artesãos que produzem sabão ecológico com pessoas que buscam alternativas sustentáveis para produtos de higiene.</p>
+                        
+                        <h3><i class="fas fa-recycle"></i> Sustentabilidade</h3>
+                        <p>Sabões ecológicos são produzidos com ingredientes naturais, muitas vezes utilizando óleo de cozinha reciclado, evitando que este resíduo contamine o meio ambiente. Além disso, a produção artesanal gera menos poluição e consome menos energia que a produção industrial.</p>
+                        
+                        <h3><i class="fas fa-hands-helping"></i> Economia Local</h3>
+                        <p>Ao conectar fabricantes locais com consumidores da mesma região, promovemos a economia local, reduzimos a pegada de carbono do transporte e fortalecemos comunidades sustentáveis.</p>
+                        
+                        <div class="map-container">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>Localização dos nossos fabricantes cadastrados</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 40px;">
+                            <a href="#" class="btn btn-primary nav-link" data-page="add"><i class="fas fa-user-plus"></i> Cadastre-se como Fabricante</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EcoSabão</h3>
+                    <p>Plataforma de troca de sabões ecológicos. Conectamos fabricantes sustentáveis com consumidores conscientes.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-chevron-right"></i><a href="#" class="nav-link" data-page="home">Início</a></li>
+                        <li><i class="fas fa-chevron-right"></i><a href="#" class="nav-link" data-page="products">Sabões</a></li>
+                        <li><i class="fas fa-chevron-right"></i><a href="#" class="nav-link" data-page="add">Cadastrar</a></li>
+                        <li><i class="fas fa-chevron-right"></i><a href="#" class="nav-link" data-page="about">Sobre</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> contato@ecosabao.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fab fa-whatsapp"></i> (11) 98888-8888</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 EcoSabão. Todos os direitos reservados. | Desenvolvido com <i class="fas fa-heart" style="color: #ff6b6b;"></i> para um mundo mais sustentável
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Dados iniciais
-        let users = JSON.parse(localStorage.getItem('users')) || [];
-        let messages = JSON.parse(localStorage.getItem('messages')) || [];
-        let currentUser = null;
-        let currentChat = null;
-
-        // Inicializar usuários demo
-        if(users.length === 0) {
-            users = [
-                { username: 'Maria', password: '123' },
-                { username: 'João', password: '123' },
-                { username: 'Ana', password: '123' }
-            ];
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-
-        // Funções de Autenticação
-        function login() {
-            const username = document.getElementById('loginUser').value;
-            const password = document.getElementById('loginPass').value;
-            const user = users.find(u => u.username === username && u.password === password);
-            
-            if(user) {
-                currentUser = user;
-                document.getElementById('authContainer').classList.replace('visible', 'hidden');
-                document.getElementById('dashboard').classList.replace('hidden', 'visible');
-                loadUsers();
-            } else {
-                alert('Credenciais inválidas!');
-            }
-        }
-
-        function signup() {
-            const username = document.getElementById('signupUser').value;
-            const password = document.getElementById('signupPass').value;
-            const confirm = document.getElementById('signupConfirm').value;
-
-            if(password !== confirm) return alert('Senhas não coincidem!');
-            if(users.some(u => u.username === username)) return alert('Usuário já existe!');
-
-            users.push({ username, password });
-            localStorage.setItem('users', JSON.stringify(users));
-            alert('Conta criada! Faça login.');
-            showLogin();
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('dashboard').classList.replace('visible', 'hidden');
-            document.getElementById('authContainer').classList.replace('hidden', 'visible');
-        }
-
-        // Navegação
-        function showSignup() {
-            document.getElementById('loginForm').classList.replace('visible', 'hidden');
-            document.getElementById('signupForm').classList.replace('hidden', 'visible');
-        }
-
-        function showLogin() {
-            document.getElementById('signupForm').classList.replace('visible', 'hidden');
-            document.getElementById('loginForm').classList.replace('hidden', 'visible');
-        }
-
-        // Chat
-        function loadUsers() {
-            const userList = document.getElementById('userList');
-            userList.innerHTML = users
-                .filter(u => u.username !== currentUser.username)
-                .map(user => `
-                    <div class="user-card" onclick="openChat('${user.username}')">
-                        <div class="user-avatar">${user.username[0]}</div>
-                        <div>
-                            <h3>${user.username}</h3>
-                            <p>Disponível para trocas</p>
-                        </div>
-                    </div>
-                `).join('');
-        }
-
-        function openChat(username) {
-            currentChat = username;
-            document.getElementById('chatContainer').classList.replace('hidden', 'visible');
-            document.getElementById('chatTitle').textContent = username;
-            loadMessages();
-        }
-
-        function closeChat() {
-            document.getElementById('chatContainer').classList.replace('visible', 'hidden');
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
-            
-            if(text) {
-                const message = {
-                    from: currentUser.username,
-                    to: currentChat,
-                    text: text,
-                    time: new Date().toLocaleTimeString()
-                };
-                
-                messages.push(message);
-                localStorage.setItem('messages', JSON.stringify(messages));
-                displayMessage(message);
-                input.value = '';
-            }
-        }
-
-        function loadMessages() {
-            const chat = document.getElementById('chatMessages');
-            chat.innerHTML = messages
-                .filter(m => 
-                    (m.from === currentUser.username && m.to === currentChat) ||
-                    (m.from === currentChat && m.to === currentUser.username)
-                )
-                .map(m => `
-                    <div class="message ${m.from === currentUser.username ? 'sent' : ''}">
-                        <div class="message-content">
-                            <p>${m.text}</p>
-                            <small>${m.time}</small>
-                        </div>
-                    </div>
-                `).join('');
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        function displayMessage(message) {
-            const chat = document.getElementById('chatMessages');
-            const div = document.createElement('div');
-            div.className = `message ${message.from === currentUser.username ? 'sent' : ''}`;
-            div.innerHTML = `
-                <div class="message-content">
-                    <p>${message.text}</p>
-                    <small>${message.time}</small>
-                </div>
-            `;
-            chat.appendChild(div);
-            chat.scrollTop = chat.scrollHeight;
-        }
+        // O JavaScript será inserido aqui
     </script>
 </body>
 </html>

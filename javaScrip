@@ -1,142 +1,253 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Navegação entre páginas
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
 
-        // Dados iniciais
-        let users = JSON.parse(localStorage.getItem('users')) || [];
-        let messages = JSON.parse(localStorage.getItem('messages')) || [];
-        let currentUser = null;
-        let currentChat = null;
-
-        // Inicializar usuários demo
-        if(users.length === 0) {
-            users = [
-                { username: 'Maria', password: '123' },
-                { username: 'João', password: '123' },
-                { username: 'Ana', password: '123' }
-            ];
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-
-        // Funções de Autenticação
-        function login() {
-            const username = document.getElementById('loginUser').value;
-            const password = document.getElementById('loginPass').value;
-            const user = users.find(u => u.username === username && u.password === password);
-            
-            if(user) {
-                currentUser = user;
-                document.getElementById('authContainer').classList.replace('visible', 'hidden');
-                document.getElementById('dashboard').classList.replace('hidden', 'visible');
-                loadUsers();
-            } else {
-                alert('Credenciais inválidas!');
+    function showPage(pageId) {
+        pages.forEach(page => {
+            page.classList.remove('active');
+            if (page.id === pageId) {
+                page.classList.add('active');
             }
-        }
+        });
+    }
 
-        function signup() {
-            const username = document.getElementById('signupUser').value;
-            const password = document.getElementById('signupPass').value;
-            const confirm = document.getElementById('signupConfirm').value;
-
-            if(password !== confirm) return alert('Senhas não coincidem!');
-            if(users.some(u => u.username === username)) return alert('Usuário já existe!');
-
-            users.push({ username, password });
-            localStorage.setItem('users', JSON.stringify(users));
-            alert('Conta criada! Faça login.');
-            showLogin();
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('dashboard').classList.replace('visible', 'hidden');
-            document.getElementById('authContainer').classList.replace('hidden', 'visible');
-        }
-
-        // Navegação
-        function showSignup() {
-            document.getElementById('loginForm').classList.replace('visible', 'hidden');
-            document.getElementById('signupForm').classList.replace('hidden', 'visible');
-        }
-
-        function showLogin() {
-            document.getElementById('signupForm').classList.replace('visible', 'hidden');
-            document.getElementById('loginForm').classList.replace('hidden', 'visible');
-        }
-
-        // Chat
-        function loadUsers() {
-            const userList = document.getElementById('userList');
-            userList.innerHTML = users
-                .filter(u => u.username !== currentUser.username)
-                .map(user => `
-                    <div class="user-card" onclick="openChat('${user.username}')">
-                        <div class="user-avatar">${user.username[0]}</div>
-                        <div>
-                            <h3>${user.username}</h3>
-                            <p>Disponível para trocas</p>
-                        </div>
-                    </div>
-                `).join('');
-        }
-
-        function openChat(username) {
-            currentChat = username;
-            document.getElementById('chatContainer').classList.replace('hidden', 'visible');
-            document.getElementById('chatTitle').textContent = username;
-            loadMessages();
-        }
-
-        function closeChat() {
-            document.getElementById('chatContainer').classList.replace('visible', 'hidden');
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetPage = link.getAttribute('data-page');
+            showPage(targetPage);
             
-            if(text) {
-                const message = {
-                    from: currentUser.username,
-                    to: currentChat,
-                    text: text,
-                    time: new Date().toLocaleTimeString()
-                };
-                
-                messages.push(message);
-                localStorage.setItem('messages', JSON.stringify(messages));
-                displayMessage(message);
-                input.value = '';
-            }
-        }
+            // Atualiza link ativo
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            link.classList.add('active');
+            
+            // Rolar para o topo
+            window.scrollTo(0, 0);
+        });
+    });
 
-        function loadMessages() {
-            const chat = document.getElementById('chatMessages');
-            chat.innerHTML = messages
-                .filter(m => 
-                    (m.from === currentUser.username && m.to === currentChat) ||
-                    (m.from === currentChat && m.to === currentUser.username)
-                )
-                .map(m => `
-                    <div class="message ${m.from === currentUser.username ? 'sent' : ''}">
-                        <div class="message-content">
-                            <p>${m.text}</p>
-                            <small>${m.time}</small>
-                        </div>
+    // Dados de exemplo CORRIGIDOS
+    const soapMakers = [
+        {
+            id: 1,
+            name: "Ana Silva",
+            business: "Saboaria Ecológica Ana",
+            email: "ana@email.com",
+            phone: "(11) 99999-8888",
+            whatsapp: "https://wa.me/5511999998888",
+            address: "Rua das Flores, 123 - Jardim Botânico",
+            city: "São Paulo",
+            state: "SP",
+            bio: "Produzo sabões ecológicos há 5 anos, utilizando óleo reciclado e ingredientes naturais. Meu foco é criar produtos que respeitam a pele e o meio ambiente.",
+            photo: ""
+        },
+        {
+            id: 2,
+            name: "Carlos Mendes",
+            business: "EcoSabões Artesanais",
+            email: "carlos@email.com",
+            phone: "(21) 98888-7777",
+            whatsapp: "https://wa.me/5521988887777",
+            address: "Av. Beira Mar, 456 - Copacabana",
+            city: "Rio de Janeiro",
+            state: "RJ",
+            bio: "Artista plástico que encontrou na produção de sabões ecológicos uma forma de unir arte e sustentabilidade. Meus sabões são verdadeiras obras de arte funcionais!",
+            photo: ""
+        }
+    ];
+
+    const soapProducts = [
+        {
+            id: 1,
+            makerId: 1,
+            name: "Sabão de Óleo com Ervas",
+            type: "barra",
+            description: "Feito com óleo reciclado e ervas aromáticas. Ideal para peles sensíveis.",
+            ingredients: ["oleo", "ervas"],
+            icon: "🧼",
+            location: "São Paulo, SP"
+        },
+        {
+            id: 2,
+            makerId: 1,
+            name: "Sabão Líquido de Lavanda",
+            type: "liquido",
+            description: "Sabão líquido suave com óleo essencial de lavanda. Perfeito para limpeza diária.",
+            ingredients: ["oleo", "ervas"],
+            icon: "🧴",
+            location: "São Paulo, SP"
+        },
+        {
+            id: 3,
+            makerId: 2,
+            name: "Sabão Especial de Argila Verde",
+            type: "especial",
+            description: "Com argila verde para controle de oleosidade e limpeza profunda.",
+            ingredients: ["argila", "ervas"],
+            icon: "🧼",
+            location: "Rio de Janeiro, RJ"
+        }
+    ];
+
+    // Função para encontrar fabricante por ID
+    function findMakerById(id) {
+        return soapMakers.find(maker => maker.id === id);
+    }
+
+    // Função para renderizar produtos - CORRIGIDA
+    function renderProducts(products) {
+        const container = document.getElementById('productsContainer');
+        container.innerHTML = '';
+        
+        if (products.length === 0) {
+            container.innerHTML = '<p style="text-align: center; grid-column: 1/-1; padding: 40px; font-size: 1.2rem;">Nenhum sabão encontrado com esses critérios.</p>';
+            return;
+        }
+        
+        products.forEach(product => {
+            const maker = findMakerById(product.makerId);
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            
+            productCard.innerHTML = `
+                <div class="product-image">
+                    <div class="product-icon">${product.icon}</div>
+                </div>
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <div class="product-meta">
+                        <span><i class="fas fa-user"></i> ${maker.business || maker.name}</span>
+                        <span><i class="fas fa-tag"></i> ${product.type.charAt(0).toUpperCase() + product.type.slice(1)}</span>
                     </div>
-                `).join('');
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        function displayMessage(message) {
-            const chat = document.getElementById('chatMessages');
-            const div = document.createElement('div');
-            div.className = `message ${message.from === currentUser.username ? 'sent' : ''}`;
-            div.innerHTML = `
-                <div class="message-content">
-                    <p>${message.text}</p>
-                    <small>${message.time}</small>
+                    <p class="product-description">${product.description}</p>
+                    <div class="product-location">
+                        <i class="fas fa-map-marker-alt"></i> ${product.location}
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <a href="${maker.whatsapp}" class="btn btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Contato via WhatsApp
+                        </a>
+                    </div>
                 </div>
             `;
-            chat.appendChild(div);
-            chat.scrollTop = chat.scrollHeight;
+            container.appendChild(productCard);
+        });
+    }
+
+    // Inicializar produtos
+    renderProducts(soapProducts);
+
+    // Filtragem de produtos - CORRIGIDA
+    let currentFilters = {
+        type: 'all',
+        ingredient: 'all'
+    };
+
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const filterType = this.getAttribute('data-filter');
+            const filterValue = this.getAttribute('data-value');
+            
+            // Atualizar filtro atual
+            currentFilters[filterType] = filterValue;
+            
+            // Atualizar estado ativo dos botões
+            document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
+                btn.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Filtrar produtos CORRIGIDO (usando ingredients)
+            const filteredProducts = soapProducts.filter(product => {
+                const typeMatch = currentFilters.type === 'all' || product.type === currentFilters.type;
+                const ingredientMatch = currentFilters.ingredient === 'all' || 
+                                     (product.ingredients && product.ingredients.includes(currentFilters.ingredient));
+                return typeMatch && ingredientMatch;
+            });
+            
+            renderProducts(filteredProducts);
+        });
+    });
+
+    // Busca de produtos - CORRIGIDA
+    document.getElementById('searchBtn').addEventListener('click', searchProducts);
+    document.getElementById('searchInput').addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') searchProducts();
+    });
+
+    function searchProducts() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        if (!searchTerm) {
+            renderProducts(soapProducts);
+            return;
         }
-   
+        
+        const results = soapProducts.filter(product => {
+            const maker = findMakerById(product.makerId);
+            return product.name.toLowerCase().includes(searchTerm) || 
+                   (product.description && product.description.toLowerCase().includes(searchTerm)) ||
+                   (maker && maker.name.toLowerCase().includes(searchTerm)) ||
+                   (maker && maker.business && maker.business.toLowerCase().includes(searchTerm));
+        });
+        
+        renderProducts(results);
+    }
+
+    // Cadastro de novo fabricante - CORRIGIDO
+    const makerForm = document.getElementById('makerForm');
+    if (makerForm) {
+        makerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obter valores do formulário
+            const name = document.getElementById('makerName').value;
+            const business = document.getElementById('makerBusiness').value;
+            const email = document.getElementById('makerEmail').value;
+            const phone = document.getElementById('makerPhone').value;
+            const whatsapp = document.getElementById('makerWhatsApp').value;
+            const address = document.getElementById('makerAddress').value;
+            const city = document.getElementById('makerCity').value;
+            const state = document.getElementById('makerState').value;
+            const bio = document.getElementById('makerBio').value;
+            const photo = document.getElementById('makerPhoto').value;
+            
+            // Criar novo objeto de fabricante
+            const newMaker = {
+                id: soapMakers.length + 1,
+                name,
+                business,
+                email,
+                phone,
+                whatsapp,
+                address,
+                city,
+                state,
+                bio,
+                photo
+            };
+            
+            // Adicionar à lista de fabricantes
+            soapMakers.push(newMaker);
+            
+            // Mostrar notificação CORRIGIDA
+            const notification = document.getElementById('notification');
+            notification.style.display = 'flex';
+            
+            // Resetar formulário
+            this.reset();
+            
+            // Esconder notificação após 3 segundos
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+            
+            // Ir para a página de produtos
+            navLinks.forEach(el => el.classList.remove('active'));
+            document.querySelector('[data-page="products"]').classList.add('active');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById('products').classList.add('active');
+        });
+    }
+});
